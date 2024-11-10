@@ -61,10 +61,12 @@ def get_color(key):
         return Fore.WHITE
 
 class Game():
-    def __init__(self, words, seed=None):
+    def __init__(self, words, code=None, seed=None):
         self.curr_team = "BLUE"
         self.words = words
-        self.code = generate_code(words)
+        if code is None:
+            code = generate_code(words)
+        self.code = code
         # scramble the order of the words
         if seed is not None:
             random.seed(seed)

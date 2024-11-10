@@ -3,6 +3,10 @@ a 4 player minimum game into a 2 player game. The AI doesn't have a body, so the
 has to read the output from the AI bot, take actions on it's behalf, and tell the AI what moves
 the human guesser made.
 
+Installation:
+1. Clone this repository with `git clone https://github.com/Pchatain/codenames-ai-agent.git`
+2. Download a Python version compatible with your system.
+
 Quickstart:
 1. Set up a physical board on the table.
 2. Make sure to set ANTHROPIC_API_KEY in your environment variables in a terminal. E.g.
@@ -22,3 +26,4 @@ Potential Improvements:
 - [ ] Add support for more AI agent models.
 - [ ] Train an agent to play code names.
 - [ ] Add a linter to the codebase.
+- [ ] Support boards of different sizes.

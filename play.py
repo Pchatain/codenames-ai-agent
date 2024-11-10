@@ -20,8 +20,6 @@ def play_against_ai(rollout_attempts=0):
     SEED = 0
     guesser = agents.AIGuesser()
     spymaster = agents.AISpymaster()
-    word_list = words.main(25, seed=SEED)
-    a_game = game.Game(word_list, seed=SEED)
 
     # Ask user whether to read from file or enter manually
     choice = input("Would you like to (1) read from board.csv or (2) enter board manually? Enter 1 or 2: ")
@@ -33,6 +31,10 @@ def play_against_ai(rollout_attempts=0):
             code_entered = next(reader)
     else:
         words_list_entered, code_entered = get_board_from_user()
+        print("words_list_entered:")
+        print(words_list_entered)
+        print("code_entered:")
+        print(code_entered)
         # Validate input
         if len(words_list_entered) != 25 or len(code_entered) != 25:
             raise ValueError("Must enter exactly 25 words and 25 code letters")
@@ -63,8 +65,7 @@ def play_against_ai(rollout_attempts=0):
     code = {word: color for word, color in zip(words_list_entered, code_colors)}
     print(words_list_entered)
     print(code)
-    a_game.words = words_list_entered
-    a_game.code = code
+    a_game = game.Game(words=words_list_entered, code=code, seed=SEED)
     a_game.display(print_human_readable=True, show_code=True)
     while True:
         get_input = input("Enter one of:\n"
@@ -113,10 +114,10 @@ def get_board_from_user():
             entry.grid(row=i+7, column=j, padx=2, pady=2)
             row.append(entry)
         code_entries.append(row)
-        
+    
+    words_list_entered = []
+    code_entered = []
     def get_entries():
-        words_list_entered = []
-        code_entered = []
         for row in word_entries:
             for entry in row:
                 words_list_entered.append(entry.get().strip())
@@ -127,7 +128,7 @@ def get_board_from_user():
         
     tk.Button(input_window, text="Submit", command=get_entries).grid(row=12, column=0, columnspan=5)
     input_window.mainloop()
-    return word_entries, code_entries
+    return words_list_entered, code_entered
 
 if __name__ == "__main__":
     main()
