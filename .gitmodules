@@ -1,0 +1,3 @@
+[submodule "codenames"]
+	path = codenames
+	url = https://github.com/sagelga/codenames.git
