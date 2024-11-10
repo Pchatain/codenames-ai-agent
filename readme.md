@@ -16,11 +16,12 @@ export ANTHROPIC_API_KEY="sk-<your-key>"
 3. Run `python play.py` to play against an AI agent.
 
 Cluer:
-* State = Board with annotations which are red, blue, neutral, or black. (TODO) A log of what the guesser speculates could be a word, but they decided not to choose it.
+* State = Board with annotations which are red, blue, neutral, or black.
 * Actions = one word, and a number which represents how many cards the other should guess.
-Guesser: 
-* State = Board. Previously chosen words, the clue word, and a number of how many guesses that clue word should correspond to.
-* Actions = 1. guess a word. 2. end turn. 3. (TODO) think out loud.
+
+Guesser:
+* State = Board as defined above, previously chosen words, the clue word, and a number of how many guesses that clue word should correspond to.
+* Actions = 1. guess a word. 2. end turn.
 
 Potential Improvements:
 - [ ] Add support for more AI agent models.
