@@ -11,7 +11,7 @@ Quickstart:
 1. Set up a physical board on the table.
 2. Make sure to set ANTHROPIC_API_KEY in your environment variables in a terminal. You can get one here https://www.anthropic.com/api
 ```
-export ANTHROPIC_API_KEY="sk-<your-key>"
+export ANTHROPIC_API_KEY="<you-key>"
 ```
 3. Run `python play.py` to play against an AI agent.
 
