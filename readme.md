@@ -9,9 +9,9 @@ Installation:
 
 Quickstart:
 1. Set up a physical board on the table.
-2. Make sure to set ANTHROPIC_API_KEY in your environment variables in a terminal. E.g.
+2. Make sure to set ANTHROPIC_API_KEY in your environment variables in a terminal. You can get one here https://www.anthropic.com/api
 ```
-export ANTHROPIC_API_KEY="sk-<your-key>"
+export ANTHROPIC_API_KEY="<you-key>"
 ```
 3. Run `python play.py` to play against an AI agent.
 
@@ -25,6 +25,6 @@ Guesser:
 
 Potential Improvements:
 - [ ] Add support for more AI agent models.
-- [ ] Train an agent to play code names.
+- [ ] Train an agent to play the game.
 - [ ] Add a linter to the codebase.
 - [ ] Support boards of different sizes.
