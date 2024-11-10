@@ -1,0 +1,4 @@
+END_OF_TURN = "EOT"
+N_CARDS = 25
+N_BLUE = 9
+N_RED = 8
