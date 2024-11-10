@@ -4,8 +4,15 @@ has to read the output from the AI bot, take actions on it's behalf, and tell th
 the human guesser made.
 
 Installation:
-1. Clone this repository with `git clone https://github.com/Pchatain/codenames-ai-agent.git`
+1. Clone this repository with
+```
+git clone https://github.com/Pchatain/codenames-ai-agent.git
+```
 2. Download a Python version compatible with your system.
+3. Run
+```
+pip install -r requirements.txt
+```
 
 Quickstart:
 1. Set up a physical board on the table.
