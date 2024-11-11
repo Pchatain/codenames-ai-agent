@@ -79,6 +79,7 @@ class Game():
         self.guesser_thoughts = []
         self.clues = [] # tuples of (word, number)
         self.rolled_back_results = [] # tuple of (list of clues (word, number), list of guesses, list of guesser thoughts)
+        self.verbose = True # whether to print various things throughout each function.
     
     def set_state(self, words, code):
         self.words = words
@@ -110,14 +111,17 @@ class Game():
         return state
 
     def guess_word(self, action: List[str]):
-        """Returns: bool, response. True upon succesful guess, false on failed guess."""
+        """Returns: bool, response. True upon succesful guess, false on failed guess.
+        We post process the word to make the first character uppercase and the rest lowercase."""
         word, thoughts = action
-        if self.curr_team == "BLUE":
-            print(Fore.BLUE + f"Guessing {word}" + Style.RESET_ALL)
-        else:
-            print(Fore.RED + f"Guessing {word}" + Style.RESET_ALL)
         if word == constants.END_OF_TURN:
             return True, constants.END_OF_TURN
+        word = word[0].upper() + word[1:].lower()
+        if self.verbose:
+            if self.curr_team == "BLUE":
+                print(Fore.BLUE + f"Guessing {word}" + Style.RESET_ALL)
+            else:
+                print(Fore.RED + f"Guessing {word}" + Style.RESET_ALL)
         if word not in self.code:
             return False, f"Word {word} not on the board. Pick a word on the board."
         if word in self.guesses:
@@ -138,10 +142,11 @@ class Game():
         elif "-" in word:
             return False, f"Word {word} contains a dash. Pick a word that isn't hyphonated"
         # TODO add more constraints here if we run into problems.
-        if self.curr_team == "BLUE":
-            print(Fore.BLUE + f"Giving clue {word},{n}" + Style.RESET_ALL)
-        else:
-            print(Fore.RED + f"Giving clue {word},{n}" + Style.RESET_ALL)
+        if self.verbose:    
+            if self.curr_team == "BLUE":
+                print(Fore.BLUE + f"Giving clue {word},{n}" + Style.RESET_ALL)
+            else:
+                print(Fore.RED + f"Giving clue {word},{n}" + Style.RESET_ALL)
         self.clues.append((word, n))
         return True, f"{word},{n}"
 
@@ -167,7 +172,8 @@ class Game():
                     ai_format.append(f"{word} (Unknown)")
             board_data.append(row)
         # Print the board using tabulate
-        if print_human_readable: print(tabulate.tabulate(board_data, tablefmt="grid"))
+        if print_human_readable:
+            print(tabulate.tabulate(board_data, tablefmt="grid"))
         return ai_format
     
     def make_move(self, player, state_fn, move_fn):
@@ -180,12 +186,13 @@ class Game():
                 made_move = True
                 break
             self.game_response += "\n" + response
-            print(f"{tries = }, {response = }")
+            if self.verbose:
+                print(f"{tries = }, {response = }")
             tries += 1
         self.game_response = ""
         return made_move, response
 
-    def play_one_round(self, guesser, spymaster, rollback=False, override_curr_team=None):
+    def play_one_round(self, guesser, spymaster, rollback=False, override_curr_team=None, verbose=True):
         """
         Args:
             guesser: obj, guesser agent
@@ -198,14 +205,16 @@ class Game():
         """
         if override_curr_team is not None:
             self.curr_team = override_curr_team
+        previous_verbose_option = self.verbose
+        self.verbose = verbose
         clue_response = self.make_move(spymaster, self.get_spymaster_state, self.give_clue)
-        print(clue_response)
+        if verbose: print(clue_response)
         max_guesses = int(clue_response[1].split(",")[1])
         n_guesses_made = 0
         round_response = None
         while n_guesses_made < max_guesses:
             guess_response = self.make_move(guesser, self.get_guesser_state, self.guess_word)
-            print(guess_response)
+            if verbose: print(guess_response)
             if guess_response[1] == "ASSASIN":
                 round_response = "LOSE"
                 n_guesses_made += 1
@@ -226,6 +235,7 @@ class Game():
         else:
             # reset rolled back results after we play a round
             self.rolled_back_results = []
+        self.verbose = previous_verbose_option
         return n_guesses_made, round_response
 
     def get_score(self):

@@ -15,7 +15,6 @@ def get_anthropic_answer(client, system_prompt, message):
             system=system_prompt,
             messages=[{"role": "user", "content": [{"type": "text", "text": message}]}]
         )
-    print(response.content)
     response_str = response.content[0].text
     found_response = False
     tag_loc = response_str.find("<response>")
@@ -118,5 +117,4 @@ class AIGuesser(Guesser):
         assert isinstance(message, str)
         assert isinstance(self.system_prompt, str)
         success, response, thoughts = get_anthropic_answer(self.client, self.system_prompt, message)
-        print(response)
         return response, thoughts
